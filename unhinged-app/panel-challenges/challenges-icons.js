@@ -1,0 +1,1 @@
+// Level 6 Icons challenges code (already provided earlier)
