@@ -1,1 +1,91 @@
-body {... (as built earlier)}
+// 🌪️ Community Page Logic
+import { postChaos } from "./panel-chaoswall/chaoswall.js";
+import { submitSpotlight } from "./panel-spotlight/spotlight.js";
+import { getDailyChallenges, completeChallenge } from "./panel-challenges/challenges.js";
+import { getTodayEvents, attendEvent } from "./panel-events/events.js";
+import { getWallet } from "./panel-coins/coins.js";
+import { getUserRank } from "./panel-hierarchy/hierarchy.js";
+
+let currentUid = "testUser123"; // replace with real session user later
+
+// --- Chaos Wall ---
+async function postChaosUI() {
+  const content = document.getElementById("chaosContent").value;
+  if (!content) return;
+  await postChaos(currentUid, content);
+  document.getElementById("chaosFeed").innerHTML += `<p>${content}</p>`;
+  document.getElementById("chaosContent").value = "";
+}
+
+// --- Spotlight ---
+async function submitSpotlightUI() {
+  const url = document.getElementById("spotlightUrl").value;
+  const caption = document.getElementById("spotlightCaption").value;
+  if (!url) return;
+  await submitSpotlight(currentUid, url, caption);
+  document.getElementById("spotlightFeed").innerHTML += `<p>🎥 ${caption} (${url})</p>`;
+  document.getElementById("spotlightUrl").value = "";
+  document.getElementById("spotlightCaption").value = "";
+}
+
+// --- Challenges ---
+function loadChallenges() {
+  const challenges = getDailyChallenges();
+  const list = document.getElementById("challengeList");
+  list.innerHTML = "";
+  challenges.forEach(c => {
+    const li = document.createElement("li");
+    li.innerHTML = `${c.desc} (Reward: ${c.reward}) 
+      <button onclick="completeChallengeUI('${c.id}')">Complete</button>`;
+    list.appendChild(li);
+  });
+}
+
+async function completeChallengeUI(challengeId) {
+  await completeChallenge(currentUid, challengeId);
+  updateWallet();
+}
+
+// --- Events ---
+function loadEvents() {
+  const events = getTodayEvents();
+  const list = document.getElementById("eventList");
+  list.innerHTML = "";
+  events.forEach(e => {
+    const li = document.createElement("li");
+    li.innerHTML = `${e.time} - ${e.desc} 
+      <button onclick="attendEventUI('${e.type}')">Attend</button>`;
+    list.appendChild(li);
+  });
+}
+
+async function attendEventUI(type) {
+  await attendEvent(currentUid, type);
+  updateWallet();
+}
+
+// --- User status ---
+async function updateWallet() {
+  const wallet = await getWallet(currentUid);
+  document.getElementById("coins").innerText = `Coins: ${wallet.coins}`;
+  document.getElementById("diamonds").innerText = `💎 ${wallet.diamonds}`;
+}
+
+async function updateRank() {
+  const rank = await getUserRank(currentUid);
+  document.getElementById("rank").innerText = `Rank: ${rank}`;
+}
+
+// --- Init ---
+window.onload = async () => {
+  updateWallet();
+  updateRank();
+  loadChallenges();
+  loadEvents();
+};
+
+// Expose globals
+window.postChaosUI = postChaosUI;
+window.submitSpotlightUI = submitSpotlightUI;
+window.completeChallengeUI = completeChallengeUI;
+window.attendEventUI = attendEventUI;
