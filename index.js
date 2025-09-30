@@ -1,90 +1,65 @@
-// 🌪️ Level 1 Test Harness
-import { registerUser, loginUser, logoutUser } from "./panel-membership/membership.js";
-import { getWallet, addCoins } from "./panel-coins/coins.js";
-import { getDailyChallenges, completeChallenge } from "./panel-challenges/challenges.js";
-import { postChaos } from "./panel-chaoswall/chaoswall.js";
+// 🌪️ Profile Page Logic
+import { getWallet } from "./panel-coins/coins.js";
 import { addFriend, toggleFlirt } from "./panel-friendsflirts/friendsflirts.js";
+import { getUserRank } from "./panel-hierarchy/hierarchy.js";
 
-let currentUid = null;
+let currentUid = null; // in real app, this comes from auth session
 
-async function register() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  currentUid = await registerUser(email, password);
-  document.getElementById("authStatus").innerText = "Registered: " + currentUid;
+// Load profile (placeholder data for now)
+async function loadProfile(uid) {
+  currentUid = uid;
+
+  // Mock username
+  document.getElementById("username").innerText = "🔥 MisfitUser";
+
+  // Rank
+  const rank = await getUserRank(uid);
+  document.getElementById("rank").innerText = `Rank: ${rank}`;
+
+  // Wallet
+  const wallet = await getWallet(uid);
+  document.getElementById("wallet").innerText =
+    `Coins: ${wallet.coins} | Diamonds: ${wallet.diamonds}`;
+
+  // Badges (placeholder)
+  document.getElementById("badges").innerHTML =
+    `<span class="badge">Beta Tester</span>`;
+
+  // Flirts + Likes (placeholder counters)
+  document.getElementById("flirts").innerText = "❤️ 3";
+  document.getElementById("likes").innerText = "👍 7";
+
+  // Friends list (placeholder for now)
+  document.getElementById("friends").innerHTML = `
+    <li>Friend A</li>
+    <li>Friend B</li>
+    <li>Friend C</li>
+  `;
 }
 
-async function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  currentUid = await loginUser(email, password);
-  document.getElementById("authStatus").innerText = "Logged in: " + currentUid;
-}
-
-async function logout() {
-  await logoutUser();
-  currentUid = null;
-  document.getElementById("authStatus").innerText = "Logged out";
-}
-
-async function getWalletUI() {
+// Action buttons
+async function toggleFlirtUI() {
   if (!currentUid) return;
-  const wallet = await getWallet(currentUid);
-  document.getElementById("wallet").innerText = `Coins: ${wallet.coins}, Diamonds: ${wallet.diamonds}`;
-}
-
-async function earnCoins() {
-  if (!currentUid) return;
-  await addCoins(currentUid, 10);
-  getWalletUI();
-}
-
-function showChallenges() {
-  const challenges = getDailyChallenges();
-  const list = document.getElementById("challengeList");
-  list.innerHTML = "";
-  challenges.forEach(c => {
-    const li = document.createElement("li");
-    li.innerHTML = `${c.desc} (Reward: ${c.reward}) 
-      <button onclick="completeChallengeUI('${c.id}')">Complete</button>`;
-    list.appendChild(li);
-  });
-}
-
-async function completeChallengeUI(challengeId) {
-  if (!currentUid) return;
-  await completeChallenge(currentUid, challengeId);
-  getWalletUI();
-}
-
-async function postChaosUI() {
-  if (!currentUid) return;
-  const content = document.getElementById("chaosContent").value;
-  await postChaos(currentUid, content);
-  document.getElementById("chaosFeed").innerHTML += `<p>${content}</p>`;
+  const target = prompt("Enter UID to flirt with:");
+  await toggleFlirt(currentUid, target, true);
+  alert("Flirt sent!");
 }
 
 async function addFriendUI() {
   if (!currentUid) return;
-  const target = document.getElementById("friendId").value;
+  const target = prompt("Enter UID to add as friend:");
   await addFriend(currentUid, target);
   alert("Friend added!");
 }
 
-async function toggleFlirtUI() {
-  if (!currentUid) return;
-  const target = document.getElementById("friendId").value;
-  await toggleFlirt(currentUid, target, true);
-  alert("Flirt toggled!");
+async function sendLike() {
+  alert("Like sent! (Hook into likes counter later)");
 }
 
-window.register = register;
-window.login = login;
-window.logout = logout;
-window.getWalletUI = getWalletUI;
-window.earnCoins = earnCoins;
-window.showChallenges = showChallenges;
-window.completeChallengeUI = completeChallengeUI;
-window.postChaosUI = postChaosUI;
-window.addFriendUI = addFriendUI;
+// Load test profile on page load
+window.onload = () => loadProfile("testUser123");
+
+// Expose for buttons
 window.toggleFlirtUI = toggleFlirtUI;
+window.addFriendUI = addFriendUI;
+window.sendLike = sendLike;
