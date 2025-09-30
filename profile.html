@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unhinged Profile</title>
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+  <div class="profile-container">
+    <header class="profile-header">
+      <h1 id="username">🔥 Username</h1>
+      <p id="rank">Rank: Misfit I</p>
+      <div class="badges" id="badges">
+        <!-- badges injected here -->
+      </div>
+    </header>
+
+    <section class="profile-stats">
+      <div class="wallet">
+        <h3>Wallet</h3>
+        <p id="wallet">Coins: 0 | Diamonds: 0</p>
+      </div>
+      <div class="flirts">
+        <h3>Flirts</h3>
+        <p id="flirts">❤️ 0</p>
+      </div>
+      <div class="likes">
+        <h3>Likes</h3>
+        <p id="likes">👍 0</p>
+      </div>
+    </section>
+
+    <section class="friends-list">
+      <h2>Friends</h2>
+      <ul id="friends">
+        <!-- friend list populated here -->
+      </ul>
+    </section>
+
+    <section class="actions">
+      <h2>Quick Actions</h2>
+      <button onclick="toggleFlirtUI()">Flirt</button>
+      <button onclick="addFriendUI()">Add Friend</button>
+      <button onclick="sendLike()">Like</button>
+    </section>
+  </div>
+
+  <script type="module" src="profile.js"></script>
+</body>
+</html>
