@@ -1,1 +1,52 @@
-<!DOCTYPE html>... (as built earlier, full code)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unhinged Community</title>
+  <link rel="stylesheet" href="community.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>🔥 Unhinged Community</h1>
+    <div class="user-status">
+      <span id="rank">Rank: Misfit I</span> |
+      <span id="coins">Coins: 0</span> |
+      <span id="diamonds">💎 0</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Chaos Wall -->
+    <section class="section" id="chaoswall-section">
+      <h2>Chaos Wall</h2>
+      <textarea id="chaosContent" placeholder="Drop your chaos..."></textarea><br>
+      <button onclick="postChaosUI()">Post</button>
+      <div id="chaosFeed"></div>
+    </section>
+
+    <!-- Spotlight -->
+    <section class="section" id="spotlight-section">
+      <h2>Community Spotlight</h2>
+      <input type="text" id="spotlightCaption" placeholder="Caption your clip"><br>
+      <input type="text" id="spotlightUrl" placeholder="Video URL"><br>
+      <button onclick="submitSpotlightUI()">Submit Spotlight</button>
+      <div id="spotlightFeed"></div>
+    </section>
+
+    <!-- Daily Challenges -->
+    <section class="section" id="challenges-section">
+      <h2>Daily Challenges</h2>
+      <ul id="challengeList"></ul>
+    </section>
+
+    <!-- Events -->
+    <section class="section" id="events-section">
+      <h2>Today’s Events</h2>
+      <ul id="eventList"></ul>
+    </section>
+  </main>
+
+  <script type="module" src="community.js"></script>
+</body>
+</html>
