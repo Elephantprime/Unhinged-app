@@ -1,1 +1,46 @@
-rules_version = '2'; service cloud.firestore { match /databases/{database}/documents { ... } }
+// Unhinged Level 1 — Minimal Firebase Rules
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 🔑 Users collection
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false; // handled by purge system
+    }
+
+    // 🪙 Clubs collection (for vaults later)
+    match /clubs/{clubId} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    // 🎯 Chaos Wall posts
+    match /chaoswall/{postId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    // 🎥 Spotlight videos
+    match /spotlight/{spotId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    // 🌍 IRL challenge submissions
+    match /irl_submissions/{submissionId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+  }
+}rules_version = '2'; service cloud.firestore { match /databases/{database}/documents { ... } }
