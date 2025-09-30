@@ -1,1 +1,45 @@
-// stub file
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unhinged Level 1 Test</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <h1>🔥 Unhinged Level 1 Test</h1>
+  <div class="section">
+    <h2>Membership</h2>
+    <input id="email" placeholder="Email"><br>
+    <input id="password" type="password" placeholder="Password"><br>
+    <button onclick="register()">Register</button>
+    <button onclick="login()">Login</button>
+    <button onclick="logout()">Logout</button>
+    <p id="authStatus">Not logged in</p>
+  </div>
+  <div class="section">
+    <h2>Coins & Wallet</h2>
+    <button onclick="getWalletUI()">Check Wallet</button>
+    <button onclick="earnCoins()">Earn 10 Coins</button>
+    <p id="wallet"></p>
+  </div>
+  <div class="section">
+    <h2>Daily Challenges</h2>
+    <button onclick="showChallenges()">Show Challenges</button>
+    <ul id="challengeList"></ul>
+  </div>
+  <div class="section">
+    <h2>Chaos Wall</h2>
+    <textarea id="chaosContent" placeholder="What's your chaos?"></textarea><br>
+    <button onclick="postChaosUI()">Post</button>
+    <div id="chaosFeed"></div>
+  </div>
+  <div class="section">
+    <h2>Friends & Flirts</h2>
+    <input id="friendId" placeholder="Target UID"><br>
+    <button onclick="addFriendUI()">Add Friend</button>
+    <button onclick="toggleFlirtUI()">Flirt Toggle</button>
+  </div>
+  <script type="module" src="index.js"></script>
+</body>
+</html>
