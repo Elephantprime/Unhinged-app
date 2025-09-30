@@ -1,1 +1,0 @@
-// Level 5 Challengers challenges code (already provided earlier)

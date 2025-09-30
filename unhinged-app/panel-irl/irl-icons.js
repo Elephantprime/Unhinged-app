@@ -1,1 +1,0 @@
-// Level 6 Icons IRL code (already provided earlier)
